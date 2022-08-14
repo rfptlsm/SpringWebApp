@@ -7,16 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springwebapp.webapp.repositories.ProductRepository;
+import com.springwebapp.webapp.dto.ProductDto;
 import com.springwebapp.webapp.entites.Product;
 
 
 @Service
 public class ProductService {
     private ProductRepository productRepository;
+    private CategoryService categoryService;
 
     @Autowired
-    public void ProductRepository(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     // public List<Product> getAllProducts(){
@@ -35,7 +38,12 @@ public class ProductService {
     }
 
     // Save Product
-    public Product save(Product product){
+    public Product save(ProductDto productDto){
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).get());
         return productRepository.save(product);
     }
 

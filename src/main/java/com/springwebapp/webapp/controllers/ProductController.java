@@ -53,17 +53,17 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation("Creates a new product. If id != null, then throw bad request response.")
-    public ResponseEntity<?> createNewProduct(@RequestBody Product p) {
+    public ResponseEntity<?> createNewProduct(@RequestBody ProductDto p) {
         if (p.getId() != null) {
             return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(),
                     "Id must be null for new entity"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(productService.save(p), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ProductDto(productService.save(p)), HttpStatus.CREATED);
     }
 
     @PutMapping
     @ApiOperation("Modify product.")
-    public ResponseEntity<?> modifyProduct(@RequestBody Product p) {
+    public ResponseEntity<?> modifyProduct(@RequestBody ProductDto p) {
         if (p.getId() == null) {
             return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(),
                     "Id must be null for new entity"), HttpStatus.BAD_REQUEST);
@@ -72,7 +72,7 @@ public class ProductController {
             return new ResponseEntity<>(new StoreError(HttpStatus.BAD_REQUEST.value(),
                     "Product with id: " + p.getId() + " doesn't exist"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(productService.save(p), HttpStatus.OK);
+        return new ResponseEntity<>(new ProductDto(productService.save(p)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

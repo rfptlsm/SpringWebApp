@@ -7,5 +7,5 @@ import com.springwebapp.webapp.entites.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
-    
+    java.util.Optional<Category> findByTitle(String title);
 }

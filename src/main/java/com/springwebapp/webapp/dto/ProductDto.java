@@ -22,7 +22,7 @@ public class ProductDto {
     
     @ApiModelProperty(notes = "Price of the product",
                                 example = "100", required = true, position = 2)
-    private int price;
+    private float price;
 
     @ApiModelProperty(notes = "Category title of the product",
                                 example = "Food", required = true, position = 3)
